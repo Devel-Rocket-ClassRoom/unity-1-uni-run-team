@@ -205,6 +205,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1065267598367929710, guid: 0f2fb976448f84f4ca75fe633e1956a3, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 469641163}
+    - target: {fileID: 4625945814294164302, guid: 0f2fb976448f84f4ca75fe633e1956a3, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 469641163}
     - target: {fileID: 5221709281436277259, guid: 0f2fb976448f84f4ca75fe633e1956a3, type: 3}
       propertyPath: m_Name
       value: StartPlatform (2)
@@ -213,6 +221,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7840774741868210587, guid: 0f2fb976448f84f4ca75fe633e1956a3, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 469641163}
     - target: {fileID: 8768817267191522633, guid: 0f2fb976448f84f4ca75fe633e1956a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.46

@@ -36,6 +36,14 @@ public class PlatformSpawner : MonoBehaviour
             selected.SetActive(true);
         }
     }
+
+
+    // 게임오버후 재시작시 더이상 스포너의 랜덤 스폰 이벤트 구독해제
+    // 매 Start마다 중복으로 구독했음
+    void OnDestroy()
+    {
+        Platform.activeFalse -= SpawnRandom;
+    }
  
     // 7개를 일단 비활성화된 상태로 생성
     // 13.46에 랜덤한 플랫폼을 활성화(비활성화된 애들중에 랜덤으로 뽑기)

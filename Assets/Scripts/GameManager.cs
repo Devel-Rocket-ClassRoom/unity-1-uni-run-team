@@ -22,12 +22,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // // 게임오버 시 화면 씬 리셋
-        // if (IsGameOver && Input.GetKeyDown(KeyCode.Space));
-        // {
-        //     // 이게 아직 잘 모르겠음;;
-        //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // }
+        // 게임오버 시 화면 씬 리셋
+        if (IsGameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            // 이게 아직 잘 모르겠음;;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void AddScore()

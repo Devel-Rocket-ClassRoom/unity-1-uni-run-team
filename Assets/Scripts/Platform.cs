@@ -14,6 +14,7 @@ public class Platform : MonoBehaviour
         }
     }
 
+
     void Update()
     {
         if (gameObject.transform.position.x <= -13.46f)

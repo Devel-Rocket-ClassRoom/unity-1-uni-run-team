@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // 게임오버시 입력처리 제한 (return처리);
+        if (gameManager.IsGameOver) return;
+        
         Health -= Time.deltaTime;
 
         // 플레이어 체력이 0이하로 내려갈시 OnPlayerDead호출
