@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class FlatForm : MonoBehaviour
+public class Platform : MonoBehaviour
 {
     public static event Action<float> activeFalse;
 

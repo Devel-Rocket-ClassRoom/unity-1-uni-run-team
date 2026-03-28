@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUi;
 
     private int score = 0;
-    public bool IsGameOver {get; private set;}
+    public bool IsGameOver {get; private set;} 
 
     public void Awake()
     {
@@ -28,5 +28,20 @@ public class GameManager : MonoBehaviour
         //     // 이게 아직 잘 모르겠음;;
         //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // }
+    }
+
+    public void AddScore()
+    {
+        score++;
+        scoreText.text = $"SCORE : {score}";
+    }
+
+    // 플레이어 사망 메서드
+    public void OnPlayerDead()
+    {   
+        // IsGameOver bool 처리
+        IsGameOver = true;
+        // 게임오버 UI 호출
+        gameOverUi.SetActive(true);
     }
 }

@@ -12,7 +12,7 @@ public class PlatformSpawner : MonoBehaviour
 
     void Start()
     {
-        FlatForm.activeFalse += SpawnRandom; // FlatForm에서 activeFalse 이벤트가 발생할 때 SpawnRandom 메서드를 호출하도록 구독
+        Platform.activeFalse += SpawnRandom; // FlatForm에서 activeFalse 이벤트가 발생할 때 SpawnRandom 메서드를 호출하도록 구독
         foreach (GameObject platform in platforms)
         {
             GameObject obj = Instantiate(platform);

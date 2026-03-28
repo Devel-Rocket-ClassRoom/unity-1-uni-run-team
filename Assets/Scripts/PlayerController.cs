@@ -7,11 +7,14 @@ public class PlayerController : MonoBehaviour
     private int jumpCount;
     [SerializeField]
     private float jumpForce = 8f;
+    // 게임매니저 받기
+    public GameManager gameManager;
 
     public float Health { get; private set; } = 100;
     private Rigidbody2D rigidbody;
     private CapsuleCollider2D collider;
     private Animator animator;
+
     void Awake()
     {
         isGrounded = true;
@@ -24,11 +27,18 @@ public class PlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
+
     }
 
     void Update()
     {
         Health -= Time.deltaTime;
+
+        // 플레이어 체력이 0이하로 내려갈시 OnPlayerDead호출
+        if (Health <= 0)
+        {
+            gameManager.OnPlayerDead();
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
@@ -56,6 +66,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", isGrounded);
         animator.SetBool("Slided", isSlided);
 
+        // 디버그 메세지 
         Debug.Log($"Health: {Health}");
     }
 
@@ -71,19 +82,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 장애물 -10hp 수정
         if (collision.gameObject.CompareTag("Damaged"))
         {
-            Health -= 30f;
+            Health -= 10f;
         }
-
+        // 코인 +5hp 수정
         if (collision.gameObject.CompareTag("Coin"))
         {
-            Health += 1f;
+            Health += 5f;
         }
 
         if (collision.gameObject.CompareTag("Dead"))
         {
+            // Die()호출 추가
             Health = 0f;
+            Die();
         }
     }
 
@@ -101,6 +115,8 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
+        // 게임매니저 PlayerDead 호출 (플레이어 사망)
+        gameManager.OnPlayerDead();
 
         // 사망 처리 로직 (예: 애니메이션 재생, 게임 오버 화면 표시 등)
     }
