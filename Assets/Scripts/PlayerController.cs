@@ -5,14 +5,15 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isSlided;
     private int jumpCount;
+
     [SerializeField]
     private float jumpForce = 8f;
-    // 게임매니저 받기
-    public GameManager gameManager;
 
     public float Health { get; private set; } = 100;
-    private float hitTime = 1.5f;
-    private float timer = 0f;
+    private float hitTime = 1.5f;                       // 히트 타임 초기값을 1.5초로 설정 (처음에는 피해를 받을 수 있는 상태)
+    private float timer = 0f;                           // 무적 시간 타이머 (렌더링 깜빡임용)
+
+    private GameManager gameManager;
     private Rigidbody2D rigidbody;
     private CapsuleCollider2D collider;
     private SpriteRenderer spriteRenderer;
@@ -31,17 +32,18 @@ public class PlayerController : MonoBehaviour
         collider = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
     void Update()
     {
-        // 게임오버시 입력처리 제한 (return처리);
+        // 게임오버시 입력처리 제한 (return처리)
         if (gameManager.IsGameOver) return;
         
         Health -= Time.deltaTime * 3;
         hitTime += Time.deltaTime;
 
-        // 플레이어 체력이 0이하로 내려갈시 OnPlayerDead호출
+        // 플레이어 체력이 0이하로 내려갈시 Die호출
         if (Health <= 0)
         {
             Die();
@@ -70,10 +72,8 @@ public class PlayerController : MonoBehaviour
             ColliderReturn();
         }
 
-        animator.SetBool("Grounded", isGrounded);
-        animator.SetBool("Slided", isSlided);
-
-        if (hitTime < 1.5f)
+        
+        if (hitTime < 1.5f) // 무적 구간에는 캐릭터 깜빡임
         {
             timer += Time.deltaTime;
             if (timer > 0.2f)
@@ -84,11 +84,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            timer = 0f;
             spriteRenderer.enabled = true;
         }
 
-        // 디버그 메세지 
-        //Debug.Log($"Health: {Health}");
+        animator.SetBool("Grounded", isGrounded);
+        animator.SetBool("Slided", isSlided);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -142,8 +143,6 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Die");
         // 게임매니저 PlayerDead 호출 (플레이어 사망)
         gameManager.OnPlayerDead();
-
-        // 사망 처리 로직 (예: 애니메이션 재생, 게임 오버 화면 표시 등)
     }
 
     // Offset : (0, -0.1) -> (0, -0.5)

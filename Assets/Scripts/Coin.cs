@@ -18,7 +18,7 @@ public class Coin : MonoBehaviour
         {
             // 디버그 메세지
             Debug.Log("코인 획득!");
-            gameObject.SetActive(false); // 코인 오브젝트 제거
+            gameObject.SetActive(false); // 코인 오브젝트 비활성화
             // 게임 매니저에서 점수 갱신
             gameManager.AddScore(); 
 
