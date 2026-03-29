@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ScrollingObject : MonoBehaviour
 {
-    private float speed = 8f;
+    public float Speed { get; private set; } = 8f;
     private GameManager gameManager;
 
     void Start()
@@ -15,7 +15,7 @@ public class ScrollingObject : MonoBehaviour
     {
         if (!gameManager.IsGameOver)
         {
-            transform.Translate(Vector3.left * speed * Time.deltaTime); // 방향 * 속력 * 시간 = 이동거리
+            transform.Translate(Vector3.left * Speed * Time.deltaTime); // 방향 * 속력 * 시간 = 이동거리
         }
 
         // 이동거리 / 시간 = 속도

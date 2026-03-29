@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public static event Action<float> activeFalse;
+    public float width = 17.92f; // 플랫폼의 가로 길이
 
     private void OnEnable()
     {
@@ -13,16 +13,4 @@ public class Platform : MonoBehaviour
             child.gameObject.SetActive(true);
         }
     }
-
-
-    void Update()
-    {
-        if (gameObject.transform.position.x <= -13.46f)
-        {
-            gameObject.SetActive(false);
-            activeFalse?.Invoke(gameObject.transform.position.x);
-        }
-    }
-
-    
 }
