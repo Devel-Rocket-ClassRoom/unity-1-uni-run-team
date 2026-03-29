@@ -320,7 +320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a6c699eec5cc14abae80d9f0370dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
-  speed: 6
 --- !u!212 &381024612
 SpriteRenderer:
   serializedVersion: 2
@@ -493,7 +492,7 @@ GameObject:
   - component: {fileID: 469641163}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1797,7 +1796,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a6c699eec5cc14abae80d9f0370dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
-  speed: 6
 --- !u!212 &1632995879
 SpriteRenderer:
   serializedVersion: 2

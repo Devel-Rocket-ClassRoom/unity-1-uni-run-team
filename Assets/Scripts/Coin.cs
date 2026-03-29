@@ -9,7 +9,7 @@ public class Coin : MonoBehaviour
     private void Start()
     {
         circleCollider = GetComponent<CircleCollider2D>();
-    
+        gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -20,7 +20,7 @@ public class Coin : MonoBehaviour
             Debug.Log("코인 획득!");
             gameObject.SetActive(false); // 코인 오브젝트 제거
             // 게임 매니저에서 점수 갱신
-            gameManager.AddScore();
+            gameManager.AddScore(); 
 
         }
     }

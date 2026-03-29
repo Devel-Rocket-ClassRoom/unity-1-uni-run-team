@@ -11,8 +11,11 @@ public class PlayerController : MonoBehaviour
     public GameManager gameManager;
 
     public float Health { get; private set; } = 100;
+    private float hitTime = 1.5f;
+    private float timer = 0f;
     private Rigidbody2D rigidbody;
     private CapsuleCollider2D collider;
+    private SpriteRenderer spriteRenderer;
     private Animator animator;
 
     void Awake()
@@ -27,7 +30,7 @@ public class PlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -35,12 +38,13 @@ public class PlayerController : MonoBehaviour
         // 게임오버시 입력처리 제한 (return처리);
         if (gameManager.IsGameOver) return;
         
-        Health -= Time.deltaTime;
+        Health -= Time.deltaTime * 2;
+        hitTime += Time.deltaTime;
 
         // 플레이어 체력이 0이하로 내려갈시 OnPlayerDead호출
         if (Health <= 0)
         {
-            gameManager.OnPlayerDead();
+            Die();
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
@@ -69,8 +73,22 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", isGrounded);
         animator.SetBool("Slided", isSlided);
 
+        if (hitTime < 1.5f)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.2f)
+            {
+                spriteRenderer.enabled = !spriteRenderer.enabled;
+                timer = 0f;
+            }
+        }
+        else
+        {
+            spriteRenderer.enabled = true;
+        }
+
         // 디버그 메세지 
-        Debug.Log($"Health: {Health}");
+        //Debug.Log($"Health: {Health}");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -88,12 +106,16 @@ public class PlayerController : MonoBehaviour
         // 장애물 -10hp 수정
         if (collision.gameObject.CompareTag("Damaged"))
         {
-            Health -= 10f;
+            if (hitTime >= 1.5f)
+            {
+                Health -= 30f;
+                hitTime = 0f; // 히트 타임 초기화
+            }
         }
         // 코인 +5hp 수정
         if (collision.gameObject.CompareTag("Coin"))
         {
-            Health += 5f;
+            Health += 1f;
         }
 
         if (collision.gameObject.CompareTag("Dead"))

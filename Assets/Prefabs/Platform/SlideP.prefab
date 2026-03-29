@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4654027255259210870}
   m_Layer: 0
   m_Name: Obstacle_0
-  m_TagString: Dead
+  m_TagString: Damaged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,3 +432,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96543e43b0c16f643a1b685619bcf9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
+  gameManager: {fileID: 0}
