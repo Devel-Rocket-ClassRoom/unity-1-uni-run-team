@@ -180,7 +180,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 20, y: 2}
+  m_Size: {x: 25, y: 2}
   m_EdgeRadius: 0
 --- !u!4 &290087401
 Transform:
@@ -365,6 +365,7 @@ MonoBehaviour:
   - {fileID: 5221709281436277259, guid: abdf45452e2a2c34bb66b846aca308cc, type: 3}
   - {fileID: 5221709281436277259, guid: 0a65cb858136f494da4cd90982cc9dd8, type: 3}
   - {fileID: 5221709281436277259, guid: af9bbd1a8d6a0a949a98b0e127752f3d, type: 3}
+  - {fileID: 5221709281436277259, guid: ac3769a7fd0100b4d8a82ab2c6e9483e, type: 3}
   movingParent: {fileID: 809789924}
   scrollScript: {fileID: 381024611}
   exitX: -22.4
@@ -599,7 +600,7 @@ GameObject:
   - component: {fileID: 610793242}
   - component: {fileID: 610793243}
   m_Layer: 5
-  m_Name: ' HP Slider'
+  m_Name: HP Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

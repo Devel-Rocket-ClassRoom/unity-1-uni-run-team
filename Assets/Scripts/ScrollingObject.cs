@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ScrollingObject : MonoBehaviour
 {
-    public float Speed { get; private set; } = 8f;
+    public float Speed { get; private set; } = 7f;
     private GameManager gameManager;
 
     void Start()

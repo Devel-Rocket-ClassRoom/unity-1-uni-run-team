@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         // 게임오버시 입력처리 제한 (return처리);
         if (gameManager.IsGameOver) return;
         
-        Health -= Time.deltaTime * 2;
+        Health -= Time.deltaTime * 3;
         hitTime += Time.deltaTime;
 
         // 플레이어 체력이 0이하로 내려갈시 OnPlayerDead호출
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 장애물 -10hp 수정
+        // 장애물 -30hp 수정
         if (collision.gameObject.CompareTag("Damaged"))
         {
             if (hitTime >= 1.5f)
@@ -112,10 +112,10 @@ public class PlayerController : MonoBehaviour
                 hitTime = 0f; // 히트 타임 초기화
             }
         }
-        // 코인 +5hp 수정
+        // 코인 +0.5hp 수정
         if (collision.gameObject.CompareTag("Coin"))
         {
-            Health += 1f;
+            Health += 0.5f;
         }
 
         if (collision.gameObject.CompareTag("Dead"))

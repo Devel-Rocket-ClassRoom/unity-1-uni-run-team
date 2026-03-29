@@ -17,11 +17,13 @@ public class PlatformSpawner : MonoBehaviour
     private List<Platform> activePlatforms;                 // 활성화된 플랫폼들
     private float lastLocalX = 0f;                          // 마지막으로 배치된 플랫폼의 로컬 X 위치
     private Platform startPlatformInstance;                 // 시작 플랫폼 인스턴스 (재사용 안 함)
+    private GameManager gameManager;
 
     private void Awake()
     {
         pool = new List<Platform>();
         activePlatforms = new List<Platform>();
+        gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
     void Start()
@@ -44,7 +46,7 @@ public class PlatformSpawner : MonoBehaviour
             startPlatformInstance = startObj.GetComponent<Platform>();
             startPlatformInstance.transform.localPosition = new Vector3(-4.6f, -1.5f, 0);
             activePlatforms.Add(startPlatformInstance);
-            lastLocalX = 0;
+            lastLocalX = -4.6f;
         }
 
         // 시작 전용 플랫폼 뒤에 초기 플랫폼 3개 더 이어 붙이기
@@ -56,10 +58,18 @@ public class PlatformSpawner : MonoBehaviour
 
     void Update()
     {
+        if (gameManager.IsGameOver)
+            return;
+
         // 부모 오브젝트 이동 (플랫폼들은 자식이므로 함께 이동함)
         if (scrollScript != null)
         {
             movingParent.position += Vector3.left * scrollScript.Speed * Time.deltaTime;
+        }
+
+        if (movingParent.position.x <= -50f)
+        {
+            ResetOrigin();
         }
 
         // 가장 앞에 있는 플랫폼이 화면 밖으로 나갔는지 체크
@@ -69,16 +79,33 @@ public class PlatformSpawner : MonoBehaviour
         }
     }
 
+    private void ResetOrigin() // 부모 오브젝트를 원점으로 순간이동시키고 자식 플랫폼들의 로컬 좌표로 배치
+    {
+        // 현재 부모 오브젝트의 오프셋 저장 (예: -100)
+        float offset = movingParent.position.x;
+
+        // 부모를 다시 월드 원점(0)으로 순간이동
+        movingParent.position = Vector3.zero;
+
+        // 자식들은 부모가 이동한 반대 방향으로 로컬 좌표를 밀어줌
+        // 이렇게 해야 화면상에서는 플랫폼이 가만히 있는 것처럼 보입니다.
+        foreach (var p in activePlatforms)
+        {
+            // 로컬 좌표에 -100을 더해줌 (즉, 100이었던 위치는 0이 됨)
+            p.transform.localPosition += new Vector3(offset, 0, 0);
+        }
+
+        // 다음 생성 기준점인 lastLocalX도 똑같이 줄여줌
+        lastLocalX += offset;
+
+        Debug.Log("좌표 최적화 완료");
+    }
+
     private void SpawnNext(float localX) // 로컬 X 좌표로 다음 플랫폼 배치
     {
         Platform p = GetRandomInactive(); 
-        if (p == null)
-        {
-            Debug.LogError("비활성화된 플랫폼이 없습니다! 풀 개수를 늘리세요.");
-            return;
-        }
 
-        // [중요] .position(월드)이 아니라 .localPosition(로컬)을 사용해야 빈틈이 안 생깁니다.
+        // position(월드)이 아니라 localPosition(로컬)을 사용해야 빈틈이 안 생김
         p.transform.localPosition = new Vector3(localX, -1.5f, 0);
         p.gameObject.SetActive(true);
         activePlatforms.Add(p);
@@ -87,7 +114,7 @@ public class PlatformSpawner : MonoBehaviour
 
     private void RecyclePlatform()
     {
-        Platform exited = activePlatforms[0];   // 가장 앞에 있는 플랫폼이 화면 밖으로 나갔으므로 재활용
+        Platform exited = activePlatforms[0];   // 화면 밖으로 나간 가장 앞에 있는 플랫폼
         activePlatforms.RemoveAt(0);            // 활성화된 리스트에서 제거
 
         if (exited == startPlatformInstance)
